@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block main_content %}
+    <div class="d-flex justify-content-center mx-auto">
+        <div class="card mt-5 col-8">
+            <div class="card-body">
+                <h5 class="card-title">Look up IP Address</h5>
+                <p class="card-text">If you can find out the IPv4 address of an Internet user, you can get an idea what part of the country or world they're in by using our IP Lookup tool. What to do: Enter the IP address you're curious about in the box below, then click "Get IP Details" </p>
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <button type="submit" class="btn btn-primary">Get IP Details</button>
+                    </form>
+            </div>
+        </div>
+    </div>
+{% if ip_status %}
+    <div class="d-flex justify-content-center mx-auto">
+        <div class="card mt-5 col-8">
+            <div class="card-body">
+                <h5 class="card-title">IP Details</h5>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                        <th scope="col" colspan=2>IP: {{ip}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Status</td>
+                            {% if ip_status == "Results found." %}
+                            <td class="text-success">{{ip_status}}</td>
+                            {% else %}
+                            <td class="text-danger">{{ip_status}}</td>
+                            {% endif %}                            
+                        </tr>
+                        <tr>
+                            <td>Reverse Name</td>
+                            <td>{{ip_data.reverse_name}}</td>
+                        </tr>
+                        <tr>
+                            <td>BGP Prefix</td>
+                            <td>{{ip_data.bgp_prefix}}</td>
+                        </tr>
+                        <tr>
+                            <td>Country</td>
+                            <td>{{ip_data.cc}}</td>
+                        </tr>
+                        <tr>
+                            <td>ASN</td>
+                            <td>{{ip_data.asn}}</td>
+                        </tr>
+                        <tr>
+                            <td>ASN Name</td>
+                            <td>{{ip_data.asn_name}}</td>
+                        </tr>
+                        <tr>
+                            <td>Organization Name</td>
+                            <td>{{ip_data.org_name}}</td>
+                        </tr>
+                        <tr>
+                            <td>Register</td>
+                            <td>{{ip_data.register}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% endblock main_content %}
