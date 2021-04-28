@@ -48,6 +48,7 @@ def insert_in_elasticsearch(ip_address, data):
 
 
 def check_ip_address(ip_address):
+    print(ip_address)
     try:
         # response = elasticsearch.get(index=INDEX_NAME,doc_type=DOC_TYPE,id=ip_address)
         last_48_hours = int((datetime.now() - timedelta(hours=48)).timestamp())
